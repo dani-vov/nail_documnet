@@ -5,7 +5,7 @@ project 내 각 Package에 대한 간단한 Description은 아래와 같습니�
   * gateway : gateway
   * reservation : 예약
   * view : 예약/완료 현황 (CQRS)
-  * work : 네일
+  * work : 네일작업
   
 # Table of contents
 
@@ -27,26 +27,26 @@ project 내 각 Package에 대한 간단한 Description은 아래와 같습니�
 # 서비스 시나리오
 
 기능적 요구사항
-1. 고객은 네일샵에 예약 및 예약 취소 변경을 한다.
-2. 예약이 완료된 고객은 네일을 받는다. 
-3. 예약이 변경/취소되면 예약현황이 변경/취소된다.
-4. 고객은 view 시스템을 통해 예약 상태를 조회할 수 있다.
+1. 고객은 네일샵에 예약 / 예약 취소 / 변경을 한다.
+1. 예약이 완료된 고객은 네일을 받는다. 
+1. 예약이 변경/취소되면 네일작업 변경/취소된다.
+1. 고객은 view 시스템을 통해 예약 상태를 조회할 수 있다.
 
 비기능적 요구사항
 1. 트랜잭션
-    1. 진료가 불가능 할 때는 예약이 불가능해야 한다. Sync 호출
+    1. 네일이 불가능 할 때는 예약이 불가능해야 한다. Sync 호출
 1. 장애격리
-    1. 예약/진료 시스템(core)만 온전하면 시스템은 정상적으로 수행되어야 한다.  Async (event-driven), Eventual Consistency
-    1. 문자 알림, 치료비 수납 시스템에 장애가 생겨도 예약/진료 (core) 시스템은 정상적으로 작동한다.
-    1. 진료시스템이 과중되면 예약을 잠시후에 하도록 유도한다.  Circuit breaker, fallback
+    1. 예약/네일작업 시스템(core)만 온전하면 시스템은 정상적으로 수행되어야 한다.  Async (event-driven), Eventual Consistency
+    1. 네일작업이 과중되면 예약을 잠시후에 하도록 유도한다.  Circuit breaker, fallback
 1. 성능
-    1. 고객이 예약/진료/치료 결과를 시스템에서 확인할 수 있어야 한다.(Lookup 시스템으로 구현, CQRS)
-    1. 알림 시스템을 통해 예약/예약취소/예약변경 내용을 문자로 알림을 줄 수 있어야 한다. (Event driven)
+    1. 고객이 예약/네일 결과를 시스템에서 확인할 수 있어야 한다.(view 시스템으로 구현, CQRS)
 
 
 # 분석/설계
 
 * 이벤트스토밍 결과:  http://msaez.io/#/storming/0vtSW2vBLoZTFiAsgdwS6H7ODs33/every/2dac041f4e652d598a042694dfa26b20/-M5LTyP4cBS9IpsqYq0h
+
+
 
 - Core Domain : 예약 (Reservation) 및 진료 (Diagnosis) 도메인
 - Supporting Domain : Lookup(CQRS) 도메인
