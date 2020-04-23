@@ -14,10 +14,11 @@ project 내 각 domain(package)에 대한 간단한 Description은 아래와 같
   - [분석/설계](#분석설계)
   - [구현](#구현)
     - [DDD 의 적용](#ddd-의-적용)
+    - [FeignClient 의 적용](#FeignClient-의-적용)
+    - [Test 시나리오](#Test-시나리오)
     - [동기식 호출과 Fallback 처리](#동기식-호출과-Fallback-처리)
     - [비동기식 호출과 Eventual Consistency](#비동기식-호출과-Eventual-Consistency)
     - [API 게이트웨이](#API-게이트웨이)
-    - [Oauth](#oauth)
   - [운영](#운영)
     - [CI/CD 설정](#cicd-설정)
     - [동기식 호출 / 서킷 브레이킹 / 장애격리](#동기식-호출--서킷-브레이킹--장애격리)
@@ -53,41 +54,35 @@ project 내 각 domain(package)에 대한 간단한 Description은 아래와 같
 
 ## 헥사고날 아키텍처 다이어그램 도출
     
-![image](https://user-images.githubusercontent.com/40315778/80058983-b7cbcf80-8565-11ea-96b2-d4d7ea08332e.png)
+![헥사고날](https://user-images.githubusercontent.com/40315778/80059113-14c78580-8566-11ea-821a-4a235cc94197.jpg)
 
 
 # 구현:
-분석/설계 단계에서 도출된 헥사고날 아키텍처에 따라, 각 BC별로 대변되는 마이크로 서비스들을 스프링부트로 구현하였다. 구현한 각 서비스를 로컬에서 실행하는 방법은 아래와 같다 (각자의 포트넘버는 8081 ~ 808n 이다)
+분석/설계 단계에서 도출된 헥사고날 아키텍처에 따라, 각 BC별로 대변되는 마이크로 서비스들을 스프링부트로 구현하였다. 
+구현한 각 서비스를 로컬에서 실행하는 방법은 아래와 같다 (각자의 포트넘버는 8081 ~ 808n 이다)
 
-동물병원 예약/진료 시스템은 아래의 7가지 마이크로 서비스로 구성되어 있다.
+네일샵 예약시스템은 아래의 4가지 마이크로 서비스로 구성되어 있다.
 
-1. 게이트 웨이: [https://github.com/AnimalHospital2/gateway.git](https://github.com/AnimalHospital2/gateway.git)
-1. Oauth 시스템: [https://github.com/AnimalHospital2/ouath.git](https://github.com/AnimalHospital2/ouath.git)
-1. 예약 시스템: [https://github.com/AnimalHospital2/reservation.git](https://github.com/AnimalHospital2/reservation.git)
-1. 진료 시스템: [https://github.com/AnimalHospital2/diagnosis.git](https://github.com/AnimalHospital2/diagnosis.git)
-1. 수납 시스템: [https://github.com/AnimalHospital2/acceptance.git](https://github.com/AnimalHospital2/acceptance.git)
-1. 알림 시스템: [https://github.com/AnimalHospital2/notice.git](https://github.com/AnimalHospital2/notice.git)
-
-- 게이트웨이 시스템은 수업시간에 이용한 예제를 프로젝트에 맞게 설정을 변경하였다. 
-- Oauth 시스템은 수업시간에 이용한 예제를 그대로 활용하였다.
-
-모든 시스템은 Spring Boot로 구현하였고 `mvn spring-boot:run` 명령어로 실행할 수 있다.
+1. 게이트 웨이: [https://github.com/dani-vov/nail_gateway.git](https://github.com/dani-vov/nail_gateway.git)
+1. 예약 시스템: [https://github.com/dani-vov/nail_reservation.git](https://github.com/dani-vov/nail_reservation.git)
+1. 네일 시스템: [https://github.com/dani-vov/nail_work.git](https://github.com/dani-vov/nail_work.git)
+1. 조회 시스템: [https://github.com/dani-vov/nail_view.git](https://github.com/dani-vov/nail_view.git)
 
 ## DDD 의 적용
 
-- 각 서비스내에 도출된 핵심 Aggregate Root 객체를 Entity 로 선언하였다: (예시는 예약 시스템의 Reservation.class). 이때 가능한 현업에서 사용하는 언어 (유비쿼터스 랭귀지)를 그대로 사용하려고 노력했다.
+- 각 서비스내에 도출된 핵심 Aggregate Root 객체를 Entity 로 선언하였다: (예시는 예약 시스템의 Reservation.class)
 
 ``` java
-package com.example.reservation;
+package nailshop;
 
-import com.example.reservation.external.MedicalRecord;
-import com.example.reservation.external.MedicalRecordService;
+import nailshop.config.kafka.KafkaProcessor;
+import nailshop.external.Nail;
+import nailshop.external.NailService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.cloud.stream.messaging.Processor;
+import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.util.MimeTypeUtils;
 
 import javax.persistence.*;
@@ -98,7 +93,7 @@ public class Reservation {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Long reservationId;
 
     private String reservatorName;
 
@@ -107,20 +102,8 @@ public class Reservation {
     private String phoneNumber;
 
     @PostPersist
-    public void publishReservationReservedEvent() {
-
-        MedicalRecord medicalRecord = new MedicalRecord();
-
-        medicalRecord.setReservationId(this.getId());
-        medicalRecord.setDoctor("Brad pitt");
-        medicalRecord.setMedicalOpinion("별 이상 없습니다.");
-        medicalRecord.setTreatment("그냥 집에서 푹 쉬면 나을 것입니다.");
-
-        ReservationApplication.applicationContext.getBean(MedicalRecordService.class).diagnosis(medicalRecord);
-
-
+    public void publishReservationReservedEvent() throws InterruptedException {
         // Reserved 이벤트 발생
-
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
 
@@ -130,15 +113,25 @@ public class Reservation {
             throw new RuntimeException("JSON format exception", e);
         }
 
-        Processor processor = ReservationApplication.applicationContext.getBean(Processor.class);
-        MessageChannel outputChannel = processor.output();
+        KafkaProcessor processor;
+        processor = Application.applicationContext.getBean(KafkaProcessor.class);
+        MessageChannel outputChannel = processor.outboundTopic();
 
         outputChannel.send(MessageBuilder
                 .withPayload(json)
                 .setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON)
                 .build());
 
+        Nail nail = new Nail();
+        nail.setReservationId(this.getId());
+        nail.setEmployee("파이리");
+        nail.setDescription("젤네일");
+        nail.setFee(50000L);
+        nail.setReservatorName(this.getReservatorName());
+        nail.setReservationDate(this.getReservationDate());
+        nail.setPhoneNumber(this.getPhoneNumber());
 
+        Application.applicationContext.getBean(NailService.class).work(nail);
     }
 
     @PostUpdate
@@ -152,8 +145,9 @@ public class Reservation {
             throw new RuntimeException("JSON format exception", e);
         }
 
-        Processor processor = ReservationApplication.applicationContext.getBean(Processor.class);
-        MessageChannel outputChannel = processor.output();
+        KafkaProcessor processor;
+        processor = Application.applicationContext.getBean(KafkaProcessor.class);
+        MessageChannel outputChannel = processor.outboundTopic();
 
         outputChannel.send(MessageBuilder
                 .withPayload(json)
@@ -172,8 +166,9 @@ public class Reservation {
             throw new RuntimeException("JSON format exception", e);
         }
 
-        Processor processor = ReservationApplication.applicationContext.getBean(Processor.class);
-        MessageChannel outputChannel = processor.output();
+        KafkaProcessor processor;
+        processor = Application.applicationContext.getBean(KafkaProcessor.class);
+        MessageChannel outputChannel = processor.outboundTopic();
 
         outputChannel.send(MessageBuilder
                 .withPayload(json)
@@ -182,11 +177,11 @@ public class Reservation {
     }
 
     public Long getId() {
-        return id;
+        return reservationId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.reservationId = id;
     }
 
     public String getReservatorName() {
@@ -214,21 +209,123 @@ public class Reservation {
     }
 }
 
-
 ```
 
-- Entity Pattern 과 Repository Pattern 을 적용하여 JPA 를 통하여 다양한 데이터소스 유형 (RDB or NoSQL) 에 대한 별도의 처리가 없도록 데이터 접근 어댑터를 자동 생성하기 위하여 Spring Data REST 의 RestRepository 를 적용하였다.
+- Entity Pattern 과 Repository Pattern을 적용하여 JPA 를 통하여 다양한 데이터소스 유형 (RDB or NoSQL) 에 대한 별도의 처리가 없도록 데이터 접근 어댑터를 자동 생성하기 위하여 Spring Data REST 의 RestRepository 를 적용하였다.
 RDB로는 H2를 사용하였다. 
+
 ``` java
-package com.example.reservation;
+package nailshop;
 
 import org.springframework.data.repository.CrudRepository;
 
 public interface ReservationRepository extends CrudRepository<Reservation, Long> {
 }
 
+```
+## FeignClient 의 적용
+- FeignClient를 적용하였고, url을 하드코딩으로 작성하였던 부분의 소스를 변수타입으로 수정하여 문제를 해결하였다.
+  (NailService 파일과 application.yml 파일 둘 다 수정하였다)
+
+- NailService
+``` java
+package nailshop.external;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Service
+@FeignClient(name = "work", url = "${api.url.work}")
+public interface NailService {
+
+    @RequestMapping(method = RequestMethod.POST, path = "/nails")
+    public void work(@RequestBody Nail nail);
 }
 ```
+-application.yml
+```
+server:
+  port: 8080
+---
+
+spring:
+  profiles: default
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+        streams:
+          binder:
+            configuration:
+              default:
+                key:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+      bindings:
+#        event-in:
+#          group: reservation
+#          destination: NailShop
+#          contentType: application/json
+        event-out:
+          destination: NailShop
+          contentType: application/json
+
+  logging:
+    level:
+      org.hibernate.type: trace
+      org.springframework.cloud: debug
+
+server:
+  port: 8081
+
+api:
+  url:
+    work: http://localhost:8082
+---
+
+spring:
+  profiles: docker
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: my-kafka.kafka.svc.cluster.local:9092
+        streams:
+          binder:
+            configuration:
+              default:
+                key:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+      bindings:
+#        event-in:
+#          group: reservation
+#          destination: NailShop
+#          contentType: application/json
+        event-out:
+          destination: NailShop
+          contentType: application/json
+
+api:
+  url:
+    work: http://work:8080
+```
+
+
+## Test 시나리오
+
+
 - 적용 후 REST API 의 테스트
 
 주의!!! reservation 서비스에는 FeignClient가 적용되어 있다. 여기에 diagnosis 시스템의 api 주소가 하드코딩되어 있어 로컬 테스트 환경과
