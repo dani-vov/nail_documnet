@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a07d5dc2-05d5-492a-bbdb-a414e53b2a17" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/reservation" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1aqWYESm7xReRnNNHPqoAbx98cT" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/view/src/main/java" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="NailShop.external" />
+      <recent name="NailShop.Event" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\project\NailShop\view\src\main\java\NailShop\Event" />
+    </key>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a07d5dc2-05d5-492a-bbdb-a414e53b2a17" name="Default Changelist" comment="" />
+      <created>1587463649850</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587463649850</updated>
+    </task>
+    <task id="LOCAL-00001" summary="최초 commit">
+      <created>1587465847109</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1587465847110</updated>
+    </task>
+    <task id="LOCAL-00002" summary="소스 수정">
+      <created>1587542506815</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1587542506815</updated>
+    </task>
+    <task id="LOCAL-00003" summary="소스 수정">
+      <created>1587544971007</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1587544971007</updated>
+    </task>
+    <task id="LOCAL-00004" summary="소스 수정">
+      <created>1587545857485</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1587545857485</updated>
+    </task>
+    <task id="LOCAL-00005" summary="소스 수정">
+      <created>1587604821594</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1587604821594</updated>
+    </task>
+    <task id="LOCAL-00006" summary="소스 수정">
+      <created>1587605042170</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1587605042170</updated>
+    </task>
+    <task id="LOCAL-00007" summary="소스 수정">
+      <created>1587605626230</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1587605626230</updated>
+    </task>
+    <task id="LOCAL-00008" summary="소스 수정">
+      <created>1587606573660</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1587606573660</updated>
+    </task>
+    <task id="LOCAL-00009" summary="경로 수정">
+      <created>1587609312128</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1587609312128</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="최초 commit" />
+    <MESSAGE value="소스 수정" />
+    <MESSAGE value="경로 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="경로 수정" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="714" y="322" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1587545842928">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="714" y="322" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1587545842927" />
+    <state x="1245" y="233" key="#com.intellij.ide.util.MemberChooser" timestamp="1587538381616">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1245" y="233" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1587538381616" />
+    <state x="1288" y="412" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1587464517632">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1288" y="412" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587464517632" />
+    <state x="568" y="113" key="CommitChangelistDialog2" timestamp="1587609311264">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="568" y="113" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1587609311264" />
+    <state x="1220" y="278" key="FileChooserDialogImpl" timestamp="1587531182117">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1220" y="278" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1587531182117" />
+    <state width="1877" height="347" key="GridCell.Tab.0.bottom" timestamp="1587607804628">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="347" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587607804628" />
+    <state width="1877" height="347" key="GridCell.Tab.0.center" timestamp="1587607804628">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="347" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587607804628" />
+    <state width="1877" height="347" key="GridCell.Tab.0.left" timestamp="1587607804628">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="347" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587607804628" />
+    <state width="1877" height="347" key="GridCell.Tab.0.right" timestamp="1587607804628">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="347" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587607804628" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1587609318464">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1587609318464" />
+    <state x="1234" y="301" key="chooseDestDirectoryDialog" timestamp="1587464858033">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1234" y="301" key="chooseDestDirectoryDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587464858033" />
+    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1587606180644">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587606180644" />
+  </component>
+</project>
