@@ -1,7 +1,7 @@
 # 개인 Final project - 네일샵 예약시스템 구축
 
 이 시스템은 MSA/DDD/Event Storming/EDA 를 포괄하는 분석/설계/구현/운영 전단계를 커버하도록 구성하였습니다.
-project 내 각 Package에 대한 간단한 Description은 아래와 같습니다.
+project 내 각 domain(package)에 대한 간단한 Description은 아래와 같습니다.
   * gateway : gateway
   * reservation : 예약
   * view : 예약/완료 현황 (CQRS)
@@ -44,17 +44,16 @@ project 내 각 Package에 대한 간단한 Description은 아래와 같습니�
 
 # 분석/설계
 
-* 이벤트스토밍 결과:  http://msaez.io/#/storming/0vtSW2vBLoZTFiAsgdwS6H7ODs33/every/2dac041f4e652d598a042694dfa26b20/-M5LTyP4cBS9IpsqYq0h
+* 이벤트스토밍 결과
 
+![이벤트스토밍](https://user-images.githubusercontent.com/40315778/80058687-e85f3980-8564-11ea-8af0-3226ce170729.jpg)
 
-
-- Core Domain : 예약 (Reservation) 및 진료 (Diagnosis) 도메인
-- Supporting Domain : Lookup(CQRS) 도메인
-- General Domain : 알림(notice) 시스템.
+- Core Domain : 예약 (Reservation) 및 네일 (work) 도메인
+- Supporting Domain : view(CQRS) 도메인
 
 ## 헥사고날 아키텍처 다이어그램 도출
     
-![image](https://user-images.githubusercontent.com/38850007/79833622-aad4a200-83e6-11ea-80f1-6eb9a59503af.png)
+![image](https://user-images.githubusercontent.com/40315778/80058983-b7cbcf80-8565-11ea-96b2-d4d7ea08332e.png)
 
 
 # 구현:
