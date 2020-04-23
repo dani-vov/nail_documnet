@@ -448,7 +448,6 @@ http post localhost:8081/reservations reservatorName="dani" reservationDate="202
 ## 클러스터 적용 후 REST API 의 테스트
 - http://52.231.117.106:8080/reservations //reservation 조회 
 - http://52.231.117.106:8080/reservations reservatorName="dani" reservationDate="2020-04-22" phoneNumber="010-1234-5678"   //reservation 요청 
-- Delete http://52.231.117.106:8080/reservations/1 	//reservation Cancel  Sample
 - http://52.231.117.106:8080/allStats //view  조회
 - http://52.231.117.106:8080/nails/ 	//work 조회
 
