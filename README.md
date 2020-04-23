@@ -325,50 +325,50 @@ api:
 
 ## Test 시나리오
 
-
-- 적용 후 REST API 의 테스트
-
-주의!!! reservation 서비스에는 FeignClient가 적용되어 있다. 여기에 diagnosis 시스템의 api 주소가 하드코딩되어 있어 로컬 테스트 환경과
-Cloud 테스트 환경에서는 그 값을 달리하여 테스트하여야 한다.
-
-package com.example.reservation.external.MedicalRecordService의 내용을 테스트 환경에 따라 변경해준다.;
-
-
 - Local 환경 테스트시 
-``` java
-@FeignClient(name = "diagnosis", url = "http://localhost:8083")
-public interface MedicalRecordService {
+  아래의 명령어는 httpie 프로그램을 사용하여 입력한다.
+  ```
+  # 예약 서비스의 예약
+  http post localhost:8081/reservations reservatorName="dani" reservationDate="2020-04-22" phoneNumber="010-1234-5678"
 
-    @RequestMapping(method = RequestMethod.POST, path = "/medicalRecords")
-    public void diagnosis(@RequestBody MedicalRecord medicalRecord);
-}
-```
+  # 예약된 서비스의 예약 취소
+  http delete localhost:8081/reservations/1
+
+  # 예약된 서비스의 예약 변경
+  http patch localhost:8081/reservations/1 reservationDate="2020-05-01"
+
+  # 네일작업 리스트 확인
+  http localhost:8083/allStats
+  ```
+  수행결과 다음과 같다 (예시 : Post)
+  
+  ![로컬테스트](https://user-images.githubusercontent.com/40315778/80060422-789f7d80-8569-11ea-9467-4ed1eaf793d3.jpg)
 
 - Cloud 환경 테스트시
-``` java
-@FeignClient(name = "diagnosis", url = "http://diagnosis:8080")
-public interface MedicalRecordService {
+  1) 'kubectl get all' 로 서비스 상태 및 gateway의 External IP/Port를 확인한다. (gateway IP : 52.231.117.106 / Port : 8080)
+  
+  ![서버확인](https://user-images.githubusercontent.com/40315778/80060481-a684c200-8569-11ea-99d3-4abed4e80dfd.jpg)
+  
+  2) 아래의 명령어는 httpie 프로그램을 사용하여 입력한다.
+   ```
+   # 예약 서비스의 예약
+   http post 52.231.117.106:8080/reservations reservatorName="dani" reservationDate="2020-04-22" phoneNumber="010-1234-5678"
 
-    @RequestMapping(method = RequestMethod.POST, path = "/medicalRecords")
-    public void diagnosis(@RequestBody MedicalRecord medicalRecord);
-}
-```
+   # 예약된 서비스의 예약 취소
+   http delete 52.231.117.106:8080/reservations/1
 
-아래의 명령어는 httpie 프로그램을 사용하여 입력한다.
-```
-# 예약 서비스의 예약
-http post localhost:8081/reservations reservatorName="Jackson" reservationDate="2020-04-30" phoneNumber="010-1234-5678"
+   # 예약된 서비스의 예약 변경
+   http patch 52.231.117.106:8080/reservations/1 reservationDate="2020-05-01"
 
-# 예약 서비스의 예약 취소
-http delete localhost:8081/reservations/1
-
-# 예약 서비스의 예약 변경
-http patch localhost:8081/reservations/1 reservationDate="2020-05-01"
-
-# 진료 기록 리스트 확인
-http localhost:8083/medicalRecords
-
-```
+   # 네일작업 리스트 확인
+   http 52.231.117.106:8080/allStats
+   ```
+   
+   수행결과 다음과 같다 (예시 : patch / delete)
+   
+   ![클라우드테스트1](https://user-images.githubusercontent.com/40315778/80060750-46dae680-856a-11ea-8325-95e81ef6114b.jpg)
+   
+   ![클라우드테스트2](https://user-images.githubusercontent.com/40315778/80060842-886b9180-856a-11ea-9b6e-bcbc3fffdbdf.jpg)
 
 ## 동기식 호출과 Fallback 처리
 
